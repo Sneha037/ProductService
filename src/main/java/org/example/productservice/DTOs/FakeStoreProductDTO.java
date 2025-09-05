@@ -1,17 +1,16 @@
 package org.example.productservice.DTOs;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.example.productservice.Models.Category;
 import org.example.productservice.Models.Product;
 
-
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Setter
 public class FakeStoreProductDTO
 {
-    private String ID;
+    private Long ID;
 
     private String Title;
     private String Description;

@@ -1,5 +1,6 @@
 package org.example.productservice.Models;
 
+import jakarta.persistence.Entity;
 import lombok.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,8 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Setter
 //@SpringBootApplication
 
-public class Category {
-    private String ID;
+@Entity
+public class Category extends BaseModel
+{
+    //private String ID;
     private String name;
 
 

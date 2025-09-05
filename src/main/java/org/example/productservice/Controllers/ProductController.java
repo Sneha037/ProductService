@@ -6,12 +6,15 @@ import org.example.productservice.DTOs.ProductRequestDTO;
 import org.example.productservice.Models.Category;
 import org.example.productservice.Models.Product;
 //import org.example.productservice.Models.Category;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.example.productservice.Services.ProductService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 //import org.springframework.http.ResponseEntity;
+import org.example.productservice.Repository.CategoryRepository;
 
 import org.example.productservice.exceptions.ProductNotFoundException;
 
@@ -29,14 +32,20 @@ public class ProductController
 
     //Create Product
     //Delete Product
+    //@Qualifier
+
     private ProductService productService;
-   ProductController(ProductService productService)
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+   ProductController(@Qualifier("selfproductservice")
+                     ProductService productService)
     {
         this.productService = productService;
     }
 
     @GetMapping("/{ID}")
-    ResponseEntity<Product> getSingleProduct(@PathVariable("ID") String ID) throws ProductNotFoundException
+    ResponseEntity<Product> getSingleProduct(@PathVariable("ID") Long ID) throws ProductNotFoundException
     {
         // call service layer to get the product
         Product product = productService.getSingleProduct(ID);
@@ -56,13 +65,19 @@ public class ProductController
     @PostMapping
     Product createProduct(@RequestBody ProductRequestDTO  productRequestDTO)
     {
-        Category category = new Category();
-        category.setName(productRequestDTO.getCategory());
+        if(categoryRepository.findByName(productRequestDTO.getCategory()) == null)
+        {
+            Category category = new Category();
+            category.setName(productRequestDTO.getCategory());
+            categoryRepository.save(category);
+        }
+
+
           return productService.createProduct(
                   productRequestDTO.getTitle(),
                   productRequestDTO.getDescription(),
                   productRequestDTO.getPrice(),
-                  category,
+                  categoryRepository.findByName(productRequestDTO.getCategory()),
                   productRequestDTO.getImage()
           );
     }

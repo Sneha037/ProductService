@@ -10,7 +10,7 @@ import org.example.productservice.exceptions.ProductNotFoundException;
 
 import java.util.List;
 
-@Service
+@Service("fakestoreproductservice")
 public class FakeStoreProductService implements ProductService
 {
     //To call external APIs, we can use RestTemplate dependencies
@@ -25,7 +25,7 @@ public class FakeStoreProductService implements ProductService
     }
 
     @Override
-    public Product getSingleProduct(String ID) throws ProductNotFoundException
+    public Product getSingleProduct(Long ID) throws ProductNotFoundException
     {
         FakeStoreProductDTO  fakeStoreProductResponse = restTemplate.getForObject("https://fakestoreapi.com/products/" + ID, FakeStoreProductDTO.class);
 
