@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -41,6 +44,30 @@ class ProductControllerTest
          //A --> Assert
            assertEquals(expectedProduct,product);
 
+     }
+
+     @Test
+     void testGetSingleProductNotFoundException() throws ProductNotFoundException
+     {
+         long ProductId = -1L;
+
+         when(productService.getSingleProduct(ProductId))
+                 .thenThrow(ProductNotFoundException.class);
+
+         assertThrows(ProductNotFoundException.class, () -> productController.getSingleProduct(ProductId).getBody());
+     }
+
+     @Test
+     void testGetAllProducts() throws ProductNotFoundException
+     {
+         List<Product> expectedProducts = new ArrayList<>();
+
+         when (productService.getAllProducts())
+                 .thenReturn(expectedProducts);
+
+         List<Product> products = productController.getAllProducts();
+
+         assertEquals(expectedProducts,products);
      }
 
      /*@Test

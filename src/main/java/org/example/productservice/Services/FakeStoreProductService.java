@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.example.productservice.exceptions.ProductNotFoundException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service("fakestoreproductservice")
@@ -36,14 +38,33 @@ public class FakeStoreProductService implements ProductService
     }
 
     @Override
-    public Product createProduct(String title, String description, double price, Category category, String image)
-    {
-        return null;
+    public Product createProduct(String title, String description, double price, Category category, String image) {
+        FakeStoreProductDTO fakeStoreProductDTO = new FakeStoreProductDTO();
+
+        fakeStoreProductDTO.setTitle(title);
+        fakeStoreProductDTO.setDescription(description);
+        fakeStoreProductDTO.setPrice(price);
+        fakeStoreProductDTO.setCategory(category.getName());
+        fakeStoreProductDTO.setImage(image);
+
+        return fakeStoreProductDTO.toProduct();
     }
 
     @Override
     public List<Product> getAllProducts()
     {
-        return null;
+        FakeStoreProductDTO[] fakeStoreProductResponse = restTemplate.getForObject("https://fakestoreapi.com/products", FakeStoreProductDTO[].class);
+
+        List<FakeStoreProductDTO> fakeStoreProductDTOList = Arrays.asList(fakeStoreProductResponse);
+
+        List<Product> response = new ArrayList<>();
+
+        for(FakeStoreProductDTO fakeStoreProductDTO : fakeStoreProductDTOList)
+        {
+            Product product = fakeStoreProductDTO.toProduct();
+            response.add(product);
+        }
+
+        return response;
     }
 }
