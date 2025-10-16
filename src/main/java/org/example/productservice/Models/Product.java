@@ -17,8 +17,11 @@ public class Product extends BaseModel
     private String Name;
     private String Image;
     private String Description;
+
     private double Price;
     //Has-A relationship. We have to provide a cardinality annotation
     @ManyToOne
     private Category Category;
 }
+
+//we can have Setter annotation at field level as well, if we want to exclude any field from being set from outside

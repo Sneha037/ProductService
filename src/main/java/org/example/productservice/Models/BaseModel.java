@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 @MappedSuperclass
 //To tell Spring that this is not a model, but a superclass to keep the audit fields(common attributes) in one place
-public class BaseModel
+public abstract class BaseModel
 {
     //Audit Fields
     @Id

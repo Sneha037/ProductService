@@ -38,7 +38,7 @@ public class ProductController
     @Autowired
     private CategoryRepository categoryRepository;
 
-   ProductController(@Qualifier("selfproductservice")
+   ProductController(@Qualifier("fakestoreproductservice")
                      ProductService productService)
     {
         this.productService = productService;
@@ -52,8 +52,10 @@ public class ProductController
 
         if(product == null)
             return new ResponseEntity<>(product, HttpStatus.NOT_FOUND);
+            //throw new ProductNotFoundException("Product with ID " + ID + " not found");
 
-        return ResponseEntity.ok(product);
+        //return ResponseEntity.ok(product);
+        return ResponseEntity.ok().body(product);
     }
 
     @GetMapping

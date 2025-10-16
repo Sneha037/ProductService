@@ -32,7 +32,14 @@ public class SelfProductService implements ProductService
     @Override
     public Product getSingleProduct(Long ID) throws ProductNotFoundException
     {
-        return null;
+        Optional<Product> product = productRepository.findById(ID);
+
+        if(product.isPresent())
+        {
+            return product.get();
+        }
+
+        throw new ProductNotFoundException("Product with ID " + ID + " not found");
     }
 
     @Override

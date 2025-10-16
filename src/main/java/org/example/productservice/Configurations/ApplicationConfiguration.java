@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 //Spring Beans are spring objects which are to be managed by spring container. It's singleton
 
 @Configuration
-public class RestTemplateConfiguration
+public class ApplicationConfiguration
 {
     @Bean
      public RestTemplate createRestTemplate()
